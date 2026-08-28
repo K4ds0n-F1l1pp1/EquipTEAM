@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\LocacaoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/cliente', [ClienteController::class, 'index']); // Chama a função de exibição.
+Route::get('/cliente/create', [ClienteController::class, 'create']); // Chama a função de criar o cliente.
+
+Route::get('/locacao', [LocacaoController::class, 'index']); // Chama a função de exibição.
+Route::get('/locacao/create', [LocacaoController::class, 'create']); // Chama a função de criar a locação.
+
+Route::get('/equipamento', [EquipamentoController::class, 'index']); // Chama a função de exibição.
+Route::get('/equipamento/create', [EquipamentoController::class, 'create']); // Chama a função de criar os Equipamentos.
