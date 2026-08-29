@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clientes', function (Blueprint $table) {
+        Schema::create('equipamentos', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->string('cpf_cnpj')->unique(); // É um identificador único.
-            $table->string('telefone');
-            $table->string('endereco', 155)->nullable(); // É permitido manter nulo.
-            $table->string('email');
+            $table->string('numero_serie')->unique(); // É um dado que somente pode haver um.
+            $table->decimal('valor_diaria', 8, 2);
+            $table->string('status')->default('Disponível'); // Pode ser: Disponível, Alocado, Manutenção - mas por padrão é "Disponível".
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clientes');
+        Schema::dropIfExists('equipamentos');
     }
 };

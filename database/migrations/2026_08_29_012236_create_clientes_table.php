@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('equipamentos', function (Blueprint $table) {
+        Schema::create('clientes', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->string('numero_serie')->unique();
-            $table->decimal('valor_diaria', 8, 2); // Até 8 casa + duas após a vírgula.
-            $table->string('status')->default('Disponível'); // São os valores: Disponível, Alocado, Manutenção -> por padrão vem disponível.
+            $table->string('cpf_cnpj')->unique();
+            $table->string('telefone');
+            $table->string('endereco', 155)->nullable();
+            $table->string('email');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('equipamentos');
+        Schema::dropIfExists('clientes');
     }
 };

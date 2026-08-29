@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('locacaos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('cliente_id')->constrained('clientes')->onDelete('cascade');
-            $table->foreignId('equipamento_id')->constrained('equipamentos')->onDelete('cascade'); // Sempre que deletado os seus outros dados anexados serão excuídos jutnos.
+            $table->foreignId('equipamento_id')->constrained('equipamentos')->onDelete('cascade');
             $table->date('data_retirada');
             $table->date('data_devolucao_previsa');
             $table->decimal('valor_total', 10, 2)->nullable();
