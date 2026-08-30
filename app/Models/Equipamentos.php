@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Equipamentos extends Model
 {
     use HasFactory;
+    protected $fillable = ['nome', 'numero_serie', 'valor_diaria', 'status'];
 }

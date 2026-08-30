@@ -2,66 +2,71 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Equipamentos;
 use Illuminate\Http\Request;
+use App\Models\Equipamentos;
 
 class EquipamentosController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $dados = Equipamento::All();
+        $search = $request->get('search');
+        
+        if($search) {
+            $dados = Equipamentos::where('nome', 'like', '%' . $search . '%')->get();
+        } else {
+            $dados = Equipamentos::all();
+        }
 
-        return view('equipamento.list')->with(['dados' => $dados]);
+        return view('equipamento.list', compact('dados', 'search'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('equipamento.form');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function validationForm(Request $request)
+    {
+        $request->validate([
+            'nome' => 'required',
+            'numero_serie' => 'required',
+            'valor_diaria' => 'required|numeric',
+        ], [
+            'nome.required' => 'O :attribute é obrigatório!',
+            'numero_serie.required' => 'O :attribute é obrigatório!',
+            'valor_diaria.required' => 'O :attribute é obrigatório!',
+            'valor_diaria.numeric' => 'O :attribute deve ser um número!',
+        ]);
+    }
+
     public function store(Request $request)
     {
-        //
+        $this->validationForm($request);
+
+        Equipamentos::create($request->all());
+
+        return redirect()->route('equipamentos.index')->with('success', 'Registro salvo com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Equipamentos $equipamentos)
+    public function edit($id)
     {
-        //
+        $data = Equipamentos::find($id);
+        return view('equipamento.form', compact('data'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Equipamentos $equipamentos)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validationForm($request);
+
+        Equipamentos::find($id)->update($request->all());
+
+        return redirect()->route('equipamentos.index')->with('success', 'Registro atualizado com sucesso!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Equipamentos $equipamentos)
+    public function destroy($id)
     {
-        //
-    }
+        Equipamentos::destroy($id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Equipamentos $equipamentos)
-    {
-        //
+        return redirect()->route('equipamentos.index')->with('success', 'Registro removido com sucesso!');
     }
 }

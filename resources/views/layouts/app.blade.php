@@ -10,7 +10,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">EquipTEAM 🚀</a>
+            <a class="navbar-brand" href="{{ url('/') }}">EquipTEAM</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -18,8 +18,8 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Início</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('equipamentos.index') }}">Equipamentos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('clientes.index') }}">Clientes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('locacoes.index') }}">Locações</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('cliente.index') }}">Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('locacao.index') }}">Locações</a></li>
                 </ul>
             </div>
         </div>
