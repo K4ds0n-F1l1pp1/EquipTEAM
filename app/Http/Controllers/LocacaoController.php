@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Locacao;
+use App\Models\Cliente;
+use App\Models\Equipamentos;
 use Illuminate\Http\Request;
 
 class LocacaoController extends Controller
@@ -22,7 +24,10 @@ class LocacaoController extends Controller
      */
     public function create()
     {
-        //
+        $clientes = Cliente::all();
+        $equipamentos = Equipamentos::all();
+
+        return view('locacao.form', compact('clientes', 'equipamentos'));
     }
 
     /**
@@ -30,38 +35,60 @@ class LocacaoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validationForm($request);
+
+        Locacao::create($request->all());
+
+        return redirect()->route('locacao.index')->with('success', 'Registro salvo com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Locacao $locacao)
+    public function validationForm(Request $request)
     {
-        //
+        $request->validate([
+            'cliente_id' => 'required',
+            'equipamento_id' => 'required',
+            'data_retirada' => 'required|date',
+            'data_devolucao_previsa' => 'required|date',
+            'valor_total' => 'required|numeric',
+            'status' => 'required',
+        ], [
+            'cliente_id.required' => 'O :attribute é obrigatório!',
+            'equipamento_id.required' => 'O :attribute é obrigatório!',
+            'data_retirada.required' => 'O :attribute é obrigatório!',
+            'data_retirada.date' => 'O :attribute deve ser uma data válida!',
+            'data_devolucao_previsa.required' => 'O :attribute é obrigatório!',
+            'data_devolucao_previsa.date' => 'O :attribute deve ser uma data válida!',
+            'valor_total.required' => 'O :attribute é obrigatório!',
+            'valor_total.numeric' => 'O :attribute deve ser um número!',
+            'status.required' => 'O :attribute é obrigatório!',
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Locacao $locacao)
+    public function edit($id)
     {
-        //
+        $data = Locacao::find($id);
+        $clientes = Cliente::all();
+        $equipamentos = Equipamentos::all();
+
+        return view('locacao.form', compact('data', 'clientes', 'equipamentos'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Locacao $locacao)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validationForm($request);
+
+        Locacao::find($id)->update($request->all());
+
+        return redirect()->route('locacao.index')->with('success', 'Registro atualizado com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Locacao $locacao)
+    public function destroy($id)
     {
-        //
+        Locacao::destroy($id);
+
+        return redirect()->route('locacao.index')->with('success', 'Registro removido com sucesso!');
     }
 }
