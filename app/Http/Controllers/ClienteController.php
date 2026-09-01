@@ -22,7 +22,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        //
+        return view('cliente.form');
     }
 
     /**
@@ -30,38 +30,54 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validationForm($request);
+
+        Cliente::create($request->all());
+
+        return redirect()->route('cliente.index')->with('success', 'Registro salvo com sucesso!');
+    }
+
+        public function validationForm(Request $request)
+    {
+        $request->validate([
+            'nome' => 'required',
+            'cpf_cnpj' => 'required',
+            'telefone' => 'required',
+            'endereco' => 'required',
+            'email' => 'required|email',
+        ], [
+            'nome.required' => 'O :attribute é obrigatório!',
+            'cpf_cnpj.required' => 'O :attribute é obrigatório!',
+            'telefone.required' => 'O :attribute é obrigatório!',
+            'endereco.required' => 'O :attribute é obrigatório!',
+            'email.required' => 'O :attribute é obrigatório!',
+            'email.email' => 'O :attribute deve ser um email válido!',
+            'valor_diaria.numeric' => 'O :attribute deve ser um número!',
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Cliente $cliente)
+        public function edit($id)
     {
-        //
+        $data = Cliente::find($id);
+        return view('cliente.form', compact('data'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cliente $cliente)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validationForm($request);
+
+        Cliente::find($id)->update($request->all());
+
+        return redirect()->route('cliente.index')->with('success', 'Registro atualizado com sucesso!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Cliente $cliente)
+    public function destroy($id)
     {
-        //
-    }
+        Cliente::destroy($id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Cliente $cliente)
-    {
-        //
+        return redirect()->route('cliente.index')->with('success', 'Registro removido com sucesso!');
     }
 }
