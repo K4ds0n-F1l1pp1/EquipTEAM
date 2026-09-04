@@ -10,11 +10,21 @@ use Carbon\Carbon;
 
 class LocacaoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $dados = Locacao::with(['cliente', 'equipamento'])->get();
+        $search = $request->get('search');
 
-        return view('locacao.list')->with(['dados' => $dados]);
+        if ($search) {
+            $dados = Locacao::with(['cliente', 'equipamento'])
+                ->whereHas('cliente', function ($query) use ($search) {
+                    $query->where('nome', 'like', '%' . $search . '%');
+                })
+                ->get();
+        } else {
+            $dados = Locacao::with(['cliente', 'equipamento'])->get();
+        }
+
+        return view('locacao.list', compact('dados', 'search'));
     }
 
     public function create()

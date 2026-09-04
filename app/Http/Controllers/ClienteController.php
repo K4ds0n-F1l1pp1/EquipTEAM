@@ -10,11 +10,17 @@ class ClienteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $dados = Cliente::All(); // Dá um SELECT ALL, literalmente.
+        $search = $request->get('search');
+        
+        if($search) {
+            $dados = Cliente::where('nome', 'like', '%' . $search . '%')->get();
+        } else {
+            $dados = Cliente::all();
+        }
 
-        return view('cliente.list')->with(['dados' => $dados]); // Retorna a formação da View, onde é processado os dados
+        return view('cliente.list', compact('dados', 'search'));
     }
 
     /**
