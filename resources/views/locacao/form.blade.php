@@ -4,6 +4,20 @@
 <div class="row mt-4">
     <div class="col-12">
         <h2>{{ isset($data) ? 'Editar Locação' : 'Cadastrar Locação' }}</h2>
+
+        @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         
         <form action="{{ isset($data) ? route('locacao.update', $data->id) : route('locacao.store') }}" method="POST">
             @csrf
@@ -37,6 +51,10 @@
                     @endforeach
                     
                 </select>
+
+                @if($equipamentos->isEmpty())
+                    <small class="text-danger">Nenhum equipamento disponível no momento.</small>
+                @endif
             </div>
 
             <div class="mb-3">
@@ -47,21 +65,6 @@
             <div class="mb-3">
                 <label class="form-label">Data de Devolução: </label>
                 <input type="date" name="data_devolucao_previsa" class="form-control" value="{{ $data->data_devolucao_previsa ?? old('data_devolucao_previsa') }}">
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Valor Total: </label>
-                <input type="number" name="valor_total" class="form-control" value="{{ $data->valor_total ?? old('valor_total') }}" step="0.01">
-            </div>
-
-            <div>
-                <label class="form-label">Status: </label>
-                <select name="status" class="form-control">
-                    <option value="">Selecione um status</option>
-                    <option value="disponivel" {{ ($data->status ?? '') == 'disponivel' ? 'selected' : '' }}>Disponível</option>
-                    <option value="alugado" {{ ($data->status ?? '') == 'alugado' ? 'selected' : '' }}>Alugado</option>
-                    <option value="manutencao" {{ ($data->status ?? '') == 'manutencao' ? 'selected' : '' }}>Manutenção</option>
-                </select>
             </div>
 
             <button type="submit" class="btn btn-success">Salvar</button>

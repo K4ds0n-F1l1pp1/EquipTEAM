@@ -6,38 +6,47 @@ use App\Models\Locacao;
 use App\Models\Cliente;
 use App\Models\Equipamentos;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class LocacaoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $dados = Locacao::All(); // Dá um SELECT ALL, literalmente.
+        $dados = Locacao::with(['cliente', 'equipamento'])->get();
 
-        return view('locacao.list')->with(['dados' => $dados]); // Retorna a formação da View, onde é processado os dados
+        return view('locacao.list')->with(['dados' => $dados]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $clientes = Cliente::all();
-        $equipamentos = Equipamentos::all();
+        $equipamentos = Equipamentos::where('status', 'disponivel')->get();
 
         return view('locacao.form', compact('clientes', 'equipamentos'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $this->validationForm($request);
 
-        Locacao::create($request->all());
+        $equipamento = Equipamentos::find($request->equipamento_id);
+
+        if ($equipamento->status !== 'disponivel') {
+            return redirect()->back()->with('error', 'Este equipamento já está alugado!');
+        }
+
+        $dias = Carbon::parse($request->data_retirada)->diffInDays(Carbon::parse($request->data_devolucao_previsa));
+        $dias = $dias > 0 ? $dias : 1; // mínimo de 1 dia
+
+        Locacao::create([
+            'cliente_id' => $request->cliente_id,
+            'equipamento_id' => $request->equipamento_id,
+            'data_retirada' => $request->data_retirada,
+            'data_devolucao_previsa' => $request->data_devolucao_previsa,
+            'valor_total' => $dias * $equipamento->valor_diaria,
+        ]);
+
+        $equipamento->update(['status' => 'alugado']);
 
         return redirect()->route('locacao.index')->with('success', 'Registro salvo com sucesso!');
     }
@@ -49,8 +58,6 @@ class LocacaoController extends Controller
             'equipamento_id' => 'required',
             'data_retirada' => 'required|date',
             'data_devolucao_previsa' => 'required|date',
-            'valor_total' => 'required|numeric',
-            'status' => 'required',
         ], [
             'cliente_id.required' => 'O :attribute é obrigatório!',
             'equipamento_id.required' => 'O :attribute é obrigatório!',
@@ -58,20 +65,14 @@ class LocacaoController extends Controller
             'data_retirada.date' => 'O :attribute deve ser uma data válida!',
             'data_devolucao_previsa.required' => 'O :attribute é obrigatório!',
             'data_devolucao_previsa.date' => 'O :attribute deve ser uma data válida!',
-            'valor_total.required' => 'O :attribute é obrigatório!',
-            'valor_total.numeric' => 'O :attribute deve ser um número!',
-            'status.required' => 'O :attribute é obrigatório!',
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $data = Locacao::find($id);
         $clientes = Cliente::all();
-        $equipamentos = Equipamentos::all();
+        $equipamentos = Equipamentos::all(); // aqui mostra todos, já que o atual já está "alugado" com ele mesmo
 
         return view('locacao.form', compact('data', 'clientes', 'equipamentos'));
     }
@@ -80,14 +81,33 @@ class LocacaoController extends Controller
     {
         $this->validationForm($request);
 
-        Locacao::find($id)->update($request->all());
+        $locacao = Locacao::find($id);
+        $equipamento = Equipamentos::find($request->equipamento_id);
+
+        $dias = Carbon::parse($request->data_retirada)->diffInDays(Carbon::parse($request->data_devolucao_previsa));
+        $dias = $dias > 0 ? $dias : 1;
+
+        $locacao->update([
+            'cliente_id' => $request->cliente_id,
+            'equipamento_id' => $request->equipamento_id,
+            'data_retirada' => $request->data_retirada,
+            'data_devolucao_previsa' => $request->data_devolucao_previsa,
+            'valor_total' => $dias * $equipamento->valor_diaria,
+        ]);
 
         return redirect()->route('locacao.index')->with('success', 'Registro atualizado com sucesso!');
     }
 
     public function destroy($id)
     {
-        Locacao::destroy($id);
+        $locacao = Locacao::find($id);
+        $equipamento = Equipamentos::find($locacao->equipamento_id);
+
+        $locacao->delete();
+
+        if ($equipamento) {
+            $equipamento->update(['status' => 'disponivel']);
+        }
 
         return redirect()->route('locacao.index')->with('success', 'Registro removido com sucesso!');
     }
