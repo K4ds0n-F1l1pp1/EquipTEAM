@@ -16,6 +16,10 @@ use App\Http\Controllers\EquipamentosController;
 |
 */
 
+Route::get('/', function () {
+    return view('home');
+})->name('home');
+
 Route::get('/cliente', [ClienteController::class, 'index'])->name('cliente.index'); // Chama a função de exibição.
 Route::get('/cliente/create', [ClienteController::class, 'create'])->name('cliente.create'); // Chama a função de criar o cliente.
 Route::post('/cliente/store', [ClienteController::class, 'store'])->name('cliente.store');
