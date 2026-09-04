@@ -15,7 +15,7 @@
                 @if(isset($search))
                     <a href="{{ route('locacao.index') }}" class="btn btn-outline-danger">Limpar</a>
                 @endif
-                
+
         </form>
     </div>
 
