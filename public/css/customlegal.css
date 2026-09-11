@@ -2,7 +2,6 @@ body {
     background-color: #f4f6f9;
 }
 
-/* Navbar com sombra sutil */
 .navbar {
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
@@ -12,7 +11,7 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* Cards da home com efeito hover */
+/* Cards efeito hover */
 .card {
     border: none;
     border-radius: 12px;
@@ -29,7 +28,6 @@ body {
     color: #2c3e50;
 }
 
-/* Tabelas mais limpas */
 .table {
     background-color: #fff;
     border-radius: 10px;
@@ -54,7 +52,6 @@ body {
     background-color: #eef3f8;
 }
 
-/* Botões com bordas mais arredondadas */
 .btn {
     border-radius: 8px;
     font-weight: 500;
@@ -87,13 +84,11 @@ body {
     margin-bottom: 4px;
 }
 
-/* Título das páginas */
 h1, h2 {
     color: #1f2937;
     font-weight: 700;
 }
 
-/* Cards de formulário */
 form {
     background-color: #fff;
     padding: 25px;
@@ -120,7 +115,6 @@ form {
     color: #4b5563;
 }
 
-/* Botões de ícone (editar/excluir/voltar) */
 .btn-icon {
     width: 36px;
     height: 36px;
@@ -131,7 +125,6 @@ form {
     border-radius: 8px;
 }
 
-/* Tabela mais leve, sem bordas pesadas */
 .table {
     border-collapse: separate;
     border-spacing: 0;
