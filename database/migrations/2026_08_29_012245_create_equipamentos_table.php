@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('numero_serie')->unique(); // É um dado que somente pode haver um.
             $table->decimal('valor_diaria', 8, 2);
             $table->string('status')->default('Disponível'); // Pode ser: Disponível, Alocado, Manutenção - mas por padrão é "Disponível".
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }
