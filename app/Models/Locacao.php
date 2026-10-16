@@ -19,4 +19,9 @@ class Locacao extends Model
     {
         return $this->belongsTo(Equipamentos::class);
     }
+
+    public function pagamento()
+    {
+        return $this->hasOne(Pagamento::class);
+    }
 }
