@@ -10,7 +10,7 @@ class EquipamentosController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
-        
+
         if($search) {
             $dados = Equipamentos::where('nome', 'like', '%' . $search . '%')->get();
         } else {
@@ -43,6 +43,11 @@ class EquipamentosController extends Controller
     {
         $this->validationForm($request);
 
+        if ($request->hasFile('foto'))
+        {
+            $dados['foto'] = $request->file('foto')->store('equipamentos', 'public');
+        }
+
         Equipamentos::create($request->all());
 
         return redirect()->route('equipamentos.index')->with('success', 'Registro salvo com sucesso!');
@@ -57,6 +62,11 @@ class EquipamentosController extends Controller
     public function update(Request $request, $id)
     {
         $this->validationForm($request);
+
+        if ($request->hasFile('foto'))
+        {
+            $dados['foto'] = $request->file('foto')->store('equipamentos', 'public');
+        }
 
         Equipamentos::find($id)->update($request->all());
 
