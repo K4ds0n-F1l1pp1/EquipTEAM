@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Equipamentos;
+use App\Charts\StatusEquipamentoChart;
+use App\Charts\FormaPagamentoChart;
 
 class EquipamentosController extends Controller
 {
@@ -97,5 +99,14 @@ class EquipamentosController extends Controller
         Equipamentos::destroy($id);
 
         return redirect()->route('equipamentos.index')->with('success', 'Registro removido com sucesso!');
+    }
+
+    public function menu(StatusEquipamentoChart $chartStatus, FormaPagamentoChart $chartPagamento)
+    {
+        // Passa as variáveis 'chartStatus' e 'chartPagamento'.
+        return view('menu', [
+        'chartStatus' => $chartStatus->build(),
+        'chartPagamento' => $chartPagamento->build()
+    ]);
     }
 }
