@@ -13,6 +13,6 @@ class Pagamento extends Model
 
     public function locacao()
     {
-        return $this->belongTo(Locacao::class);
+        return $this->belongsTo(Locacao::class);
     }
 }

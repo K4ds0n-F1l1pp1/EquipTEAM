@@ -69,7 +69,7 @@ class ManutencaoController extends Controller
 
         Manutencao::create($dados);
 
-        return redirect()->route('manutencoes.index')->with('success', 'Manutenção salva com sucesso!');
+        return redirect()->route('manutencao.index')->with('success', 'Manutenção salva com sucesso!');
     }
 
     function edit($id)
@@ -95,7 +95,7 @@ class ManutencaoController extends Controller
 
             $item->update($dados);
 
-            return redirect()->route('manutencoes.index')->with('success', 'Manutenção atualizada com sucesso!');
+            return redirect()->route('manutencao.index')->with('success', 'Manutenção atualizada com sucesso!');
         } catch (Throwable $e)
         {
             echo "Não é possível editar. Erro: " . $e->getMessage() . "\n";
@@ -108,7 +108,7 @@ class ManutencaoController extends Controller
             $manutencao = Manutencao::findOrFail($id);
 
             Manutencao::destroy($id);
-            return redirect('Manutencao')->with("success", 'Registro Removido com sucesso!');
+            return redirect()->route('manutencao.index')->with("success", 'Registro Removido com sucesso!');
         } catch (Throwable $e)
         {
             echo "Não é possível excluir. Erro: " . $e->getMessage() . "\n";

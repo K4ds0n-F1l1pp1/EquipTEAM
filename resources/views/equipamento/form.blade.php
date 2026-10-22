@@ -53,6 +53,15 @@
                         @endif
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label">Status do Equipamento</label>
+                        <select name="status" class="form-select">
+                            <option value="disponivel" {{ (isset($data) && $data->status == 'disponivel') ? 'selected' : '' }}>Disponível</option>
+                            <option value="alugado" {{ (isset($data) && $data->status == 'alugado') ? 'selected' : '' }}>Alugado</option>
+                            <option value="manutencao" {{ (isset($data) && $data->status == 'manutencao') ? 'selected' : '' }}>Em Manutenção</option>
+                        </select>
+                    </div>
+
                     <button type="submit" class="btn btn-success">Salvar</button>
                     <a href="{{ route('equipamentos.index') }}" class="btn btn-secondary">Voltar</a>
                 </form>

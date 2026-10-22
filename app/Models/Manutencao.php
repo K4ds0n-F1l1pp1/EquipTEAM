@@ -10,7 +10,7 @@ class Manutencao extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['descricao', 'data_manutancao', 'custo'];
+    protected $fillable = ['equipamento_id', 'descricao', 'data_manutencao', 'custo', 'foto'];
 
     public function equipamentos()
     {
