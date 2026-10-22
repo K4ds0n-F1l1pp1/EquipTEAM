@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pagamento;
 use App\Models\Locacao;
+    use Barryvdh\DomPDF\Facade\Pdf;
 
 class PagamentoController extends Controller
 {
@@ -76,5 +77,20 @@ class PagamentoController extends Controller
         Pagamento::destroy($id);
 
         return redirect()->route('pagamento.index')->with('success', 'Pagamento removido com sucesso!');
+    }
+
+    public function report()
+    {
+        $pagamentos = Pagamento::orderBy('id')->get();
+
+        $data = [
+            'titulo' => 'Relatório de Pagamentos',
+            'date' => date('m/d/Y'),
+            'dados' => $pagamentos
+        ];
+
+        $pdf = Pdf::loadView('pagamento.report', $data);
+
+        return $pdf->download('relatorio_pagamentos.pdf');
     }
 }

@@ -26,6 +26,12 @@
     </div>
 
     <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-3">            
+            <!-- Botão para gerar o PDF de Pagamentos -->
+            <a href="{{ route('pagamento.report') }}" class="btn btn-danger">
+                <i class="bi bi-file-earmark-pdf"></i> Relatório PDF
+            </a>
+        </div>
         <div class="table-responsive">
             <table class="table align-middle">
                 <thead>

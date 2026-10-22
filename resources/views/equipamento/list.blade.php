@@ -31,6 +31,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th class="ps-3">ID</th>
+                                <th>Foto</th> <!-- Coluna de Foto Adicionada -->
                                 <th>Nome</th>
                                 <th>Nº Série</th>
                                 <th>Valor Diária</th>
@@ -42,6 +43,13 @@
                             @forelse($dados as $item)
                             <tr>
                                 <td class="ps-3">{{ $item->id }}</td>
+                                <td>
+                                    @if($item->foto)
+                                        <img src="{{ asset('storage/' . $item->foto) }}" alt="Foto Equipamento" width="60" class="img-thumbnail rounded">
+                                    @else
+                                        <span class="text-muted small">Sem foto</span>
+                                    @endif
+                                </td>
                                 <td><strong>{{ $item->nome }}</strong></td>
                                 <td>{{ $item->numero_serie }}</td>
                                 <td>R$ {{ number_format($item->valor_diaria, 2, ',', '.') }}</td>
@@ -71,7 +79,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="6" class="text-center py-4 text-muted">Nenhum equipamento cadastrado.</td>
+                                <td colspan="7" class="text-center py-4 text-muted">Nenhum equipamento cadastrado.</td>
                             </tr>
                             @endforelse
                         </tbody>

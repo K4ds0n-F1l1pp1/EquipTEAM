@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Manutencao;
 use App\Models\Equipamentos;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Queue\RedisQueue;
 use Throwable;
@@ -113,6 +114,21 @@ class ManutencaoController extends Controller
         {
             echo "Não é possível excluir. Erro: " . $e->getMessage() . "\n";
         };
+    }
+
+    public function report()
+    {
+        $manutencoes = Manutencao::with('equipamentos')->orderBy('id')->get();
+
+        $data = [
+            'titulo' => 'Relatório de Manutenções',
+            'date' => date('m/d/Y'),
+            'dados' => $manutencoes
+        ];
+
+        $pdf = Pdf::loadView('manutencao.report', $data);
+
+        return $pdf->download('relatorio_manutencoes.pdf');
     }
 
 }

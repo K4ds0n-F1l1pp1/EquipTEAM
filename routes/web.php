@@ -32,7 +32,16 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
 
+    // ==========================================
+    // GRÁFICOS DO MENU
+    // ==========================================
     Route::get('/', [EquipamentosController::class, 'menu'])->name('menu');
+
+    // ==========================================
+    // RELATÓRIOS
+    // ==========================================
+    Route::get('/manutencao/report', [ManutencaoController::class, 'report'])->name('manutencao.report');
+    Route::get('/pagamento/report', [PagamentoController::class, 'report'])->name('pagamento.report');
     
     // ==========================================
     // CLIENTES
