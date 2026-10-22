@@ -10,10 +10,10 @@ class Manutencao extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['equipamento_id', 'descricao', 'data_manutencao', 'custo', 'foto'];
+    protected $fillable = ['equipamento_id', 'descricao', 'data_manutencao', 'custo', 'foto_manutencao'];
 
     public function equipamentos()
     {
-        return $this->belongsTo(Equipamentos::class);
+        return $this->belongsTo(Equipamentos::class, 'equipamento_id');
     }
 }

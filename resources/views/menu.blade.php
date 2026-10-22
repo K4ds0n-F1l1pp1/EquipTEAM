@@ -16,7 +16,7 @@
                 <div class="card-body">
                     <i class="bi bi-tools display-5 text-primary mb-2"></i>
                     <h5>Equipamentos</h5>
-                    <a href="{{ route('equipamentos.index') }}" class="btn btn-outline-primary btn-sm stretched-link">Aceder</a>
+                    <a href="{{ route('equipamentos.index') }}" class="btn btn-outline-primary btn-sm stretched-link">Equipar mentos</a>
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
                 <div class="card-body">
                     <i class="bi bi-people display-5 text-success mb-2"></i>
                     <h5>Clientes</h5>
-                    <a href="{{ route('cliente.index') }}" class="btn btn-outline-success btn-sm stretched-link">Aceder</a>
+                    <a href="{{ route('cliente.index') }}" class="btn btn-outline-success btn-sm stretched-link">Visualizar</a>
                 </div>
             </div>
         </div>
@@ -34,13 +34,13 @@
                 <div class="card-body">
                     <i class="bi bi-calendar-check display-5 text-warning mb-2"></i>
                     <h5>Locações</h5>
-                    <a href="{{ route('locacao.index') }}" class="btn btn-outline-warning btn-sm stretched-link">Aceder</a>
+                    <a href="{{ route('locacao.index') }}" class="btn btn-outline-warning btn-sm stretched-link">Visualizar</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Secção dos Gráficos (Lado a lado) -->
+    <!-- Seção dos Gráficos (Lado a lado) -->
     <div class="row">
         <!-- Gráfico 1: Barras -->
         <div class="col-md-6 mb-4">

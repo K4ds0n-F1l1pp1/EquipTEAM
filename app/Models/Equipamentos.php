@@ -9,7 +9,7 @@ use App\Models\Manutencao;
 class Equipamentos extends Model
 {
     use HasFactory;
-    protected $fillable = ['nome', 'numero_serie', 'valor_diaria', 'status'];
+    protected $fillable = ['nome', 'numero_serie', 'valor_diaria', 'status', 'foto'];
 
     public function manutencoes()
     {

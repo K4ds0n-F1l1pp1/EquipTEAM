@@ -85,7 +85,7 @@ class ManutencaoController extends Controller
     function update(Request $request, $id)
     {
         try {
-            $this->validationForm($request);
+            $this->validateForm($request);
 
             $item = Manutencao::find($id);
             $dados = $request->all();
