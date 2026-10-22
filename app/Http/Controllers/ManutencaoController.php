@@ -13,9 +13,25 @@ class ManutencaoController extends Controller
 {
     public function index(Request $request)
     {
-        $dados = Manutencao::All();
+        $dados = Manutencao::all();
+        $search = '';
 
         return view('manutencao.list', compact('dados', 'search'));
+    }
+
+    public function search(Request $request)
+    {
+        if (!empty($request->valor)) {
+            $dados = Manutencao::where(
+                $request->tipo,
+                'like',
+                "%$request->valor%"
+            )->get();
+        } else {
+            $dados = Manutencao::All();
+        }
+
+        return view('manutencao.list', compact('dados'));
     }
 
     function create()
@@ -37,24 +53,23 @@ class ManutencaoController extends Controller
             'equipamento_id.required' => "Você precisa selecionar um :attribute!",
             'descricao.string' => "O :attribute deve ser caracter",
             'data_manutencao.date' => "A :attribute deve ser preenchida!",
-            'valor.numeric' => "O :attribute deve ser númerico",
+            'custo.numeric' => "O :attribute deve ser númerico",
         ]);
     }
 
-    function store(Request $request)
+    public function store(Request $request)
     {
-         try {
-            $this->validateForm($request);
+        $this->validateForm($request);
+        
+        $dados = $request->all();
 
-            $data = $request->All();
+        if ($request->hasFile('foto_manutencao')) {
+            $dados['foto'] = $request->file('foto_manutencao')->store('manutencoes', 'public');
+        }
 
-            Manutencao::create($data);
+        Manutencao::create($dados);
 
-            return redirect('manutencao')->with("success", 'Registro Salvo com sucesso!');
-        } catch (Throwable $e) // Permite pegar erros fatais de sintaxe ou memória.
-        {
-            echo "Não foi possível cadastrar. Erro:" . $e->getMessage() . "\n";
-        };
+        return redirect()->route('manutencoes.index')->with('success', 'Manutenção salva com sucesso!');
     }
 
     function edit($id)
@@ -69,12 +84,18 @@ class ManutencaoController extends Controller
     function update(Request $request, $id)
     {
         try {
-            $this->validateForm($request);
+            $this->validationForm($request);
 
-            $data = $request->All();
+            $item = Manutencao::find($id);
+            $dados = $request->all();
 
-            Manutencao::find($id)->update($data);
-            return redirect('Manutencao')->with("success", 'Registro Atualizado com sucesso!');
+            if ($request->hasFile('foto_manutencao')) {
+                $dados['foto'] = $request->file('foto_manutencao')->store('manutencoes', 'public');
+            }
+
+            $item->update($dados);
+
+            return redirect()->route('manutencoes.index')->with('success', 'Manutenção atualizada com sucesso!');
         } catch (Throwable $e)
         {
             echo "Não é possível editar. Erro: " . $e->getMessage() . "\n";
@@ -95,3 +116,4 @@ class ManutencaoController extends Controller
     }
 
 }
+

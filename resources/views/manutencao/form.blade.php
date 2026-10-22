@@ -7,7 +7,7 @@
             <a href="{{ route('locacao.index') }}" class="btn btn-icon btn-light me-3" title="Voltar">
                 <i class="bi bi-arrow-left"></i>
             </a>
-            <h2 class="mb-0">{{ isset($data) ? 'Editar Locação' : 'Nova Locação' }}</h2>
+            <h2 class="mb-0">{{ isset($data) ? 'Editar Manutenção' : 'Nova Manutenção' }}</h2>
         </div>
 
         @if(session('error'))
@@ -26,7 +26,7 @@
             </div>
         @endif
 
-        <form action="{{ isset($data) ? route('manutencoes.update', $data->id) : route('manutencoes.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ isset($data) ? route('manutencao.update', $data->id) : route('manutencao.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @if(isset($data))
                 @method('PUT')
@@ -44,7 +44,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Descrição do Problema / Serviço</label>
+                <label class="form-label">Descrição do Problema/Serviço</label>
                 <textarea name="descricao" class="form-control">{{ $data->descricao ?? old('descricao') }}</textarea>
             </div>
 
@@ -59,7 +59,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Foto do Reparo / Peça</label>
+                <label class="form-label">Foto do Reparo/Peça</label>
                 <input type="file" name="foto" class="form-control">
                 @if(isset($data) && $data->foto)
                     <div class="mt-2">
@@ -69,7 +69,7 @@
             </div>
 
             <button type="submit" class="btn btn-success">Salvar</button>
-            <a href="{{ route('manutencoes.index') }}" class="btn btn-secondary">Voltar</a>
+            <a href="{{ route('manutencao.index') }}" class="btn btn-secondary">Voltar</a>
         </form>
     </div>
 </div>

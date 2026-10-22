@@ -20,6 +20,21 @@ class EquipamentosController extends Controller
         return view('equipamento.list', compact('dados', 'search'));
     }
 
+    public function search(Request $request)
+    {
+        if (!empty($request->valor)) {
+            $dados = Equipamentos::where(
+                $request->tipo,
+                'like',
+                "%$request->valor%"
+            )->get();
+        } else {
+            $dados = Equipamentos::All();
+        }
+
+        return view('equipamento.list', compact('dados'));
+    }
+
     public function create()
     {
         return view('equipamento.form');
@@ -43,34 +58,38 @@ class EquipamentosController extends Controller
     {
         $this->validationForm($request);
 
-        if ($request->hasFile('foto'))
-        {
+        $dados = $request->all();
+
+        if ($request->hasFile('foto')) {
             $dados['foto'] = $request->file('foto')->store('equipamentos', 'public');
         }
 
-        Equipamentos::create($request->all());
+        Equipamentos::create($dados);
 
         return redirect()->route('equipamentos.index')->with('success', 'Registro salvo com sucesso!');
-    }
-
-    public function edit($id)
-    {
-        $data = Equipamentos::find($id);
-        return view('equipamento.form', compact('data'));
     }
 
     public function update(Request $request, $id)
     {
         $this->validationForm($request);
 
-        if ($request->hasFile('foto'))
-        {
+        $item = Equipamentos::find($id);
+        $dados = $request->all();
+
+        if ($request->hasFile('foto')) {
+            // Salva a nova foto
             $dados['foto'] = $request->file('foto')->store('equipamentos', 'public');
         }
 
-        Equipamentos::find($id)->update($request->all());
+        $item->update($dados);
 
         return redirect()->route('equipamentos.index')->with('success', 'Registro atualizado com sucesso!');
+    }
+
+    public function edit($id)
+    {
+        $data = Equipamentos::find($id);
+        return view('equipamento.form', compact('data'));
     }
 
     public function destroy($id)
