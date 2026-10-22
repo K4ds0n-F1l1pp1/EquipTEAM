@@ -13,14 +13,14 @@ class ClienteSeeder extends Seeder
             'nome' => 'João da Silva',
             'email' => 'joao@email.com',
             'telefone' => '(49) 99999-9999',
-            'cpf' => '123.456.789-00',
+            'cpf_cnpj' => '123.456.789-00',
         ]);
 
         Cliente::create([
             'nome' => 'Maria Oliveira',
             'email' => 'maria@email.com',
             'telefone' => '(49) 98888-8888',
-            'cpf' => '987.654.321-11',
+            'cpf_cnpj' => '987.654.321-11',
         ]);
     }
 }

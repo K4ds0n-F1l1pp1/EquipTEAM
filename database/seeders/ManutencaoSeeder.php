@@ -12,7 +12,7 @@ class ManutencaoSeeder extends Seeder
         Manutencao::create([
             'equipamento_id' => 1,
             'descricao' => 'Calibração periódica e troca de ponteiras',
-            'data' => now()->subDays(10),
+            'data_manutencao' => now()->subDays(10),
             'custo' => 150.00,
         ]);
     }

@@ -12,8 +12,8 @@ class LocacaoSeeder extends Seeder
         Locacao::create([
             'cliente_id' => 1,
             'equipamento_id' => 2,
-            'data_inicio' => now()->subDays(3),
-            'data_fim' => now()->addDays(4),
+            'data_retirada' => now()->subDays(3),
+            'data_devolucao_previsa' => now()->addDays(4),
             'valor_total' => 840.00,
             'status' => 'ativo',
         ]);
