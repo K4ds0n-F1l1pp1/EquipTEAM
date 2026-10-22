@@ -21,7 +21,7 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Clientes</h5>
                         <p class="card-text text-muted">Gerencie o cadastro dos clientes locatários.</p>
-                        <a href="{{ route('clientes.index') }}" class="btn btn-success">Acessar Clientes</a>
+                        <a href="{{ route('cliente.index') }}" class="btn btn-success">Acessar Clientes</a>
                     </div>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Locações</h5>
                         <p class="card-text text-muted">Registre e acompanhe os aluguéis ativos.</p>
-                        <a href="{{ route('locacoes.index') }}" class="btn btn-warning text-dark">Acessar Locações</a>
+                        <a href="{{ route('locacao.index') }}" class="btn btn-warning text-dark">Acessar Locações</a>
                     </div>
                 </div>
             </div>
