@@ -14,8 +14,16 @@ class ManutencaoController extends Controller
 {
     public function index(Request $request)
     {
-        $dados = Manutencao::all();
-        $search = '';
+        $search = $request->get('search');
+
+        if ($search) {
+            $dados = Manutencao::where('descricao', 'like', '%' . $search . '%')
+                ->orWhere('data_manutencao', 'like', '%' . $search . '%')
+                ->orWhere('custo', 'like', '%' . $search . '%')
+                ->get();
+        } else {
+            $dados = Manutencao::all();
+        }
 
         return view('manutencao.list', compact('dados', 'search'));
     }
@@ -64,8 +72,8 @@ class ManutencaoController extends Controller
         
         $dados = $request->all();
 
-        if ($request->hasFile('foto_manutencao')) {
-            $dados['foto'] = $request->file('foto_manutencao')->store('manutencoes', 'public');
+        if ($request->hasFile('foto')) {
+            $dados['foto_manutencao'] = $request->file('foto')->store('manutencoes', 'public');
         }
 
         Manutencao::create($dados);
@@ -90,8 +98,8 @@ class ManutencaoController extends Controller
             $item = Manutencao::find($id);
             $dados = $request->all();
 
-            if ($request->hasFile('foto_manutencao')) {
-                $dados['foto'] = $request->file('foto_manutencao')->store('manutencoes', 'public');
+            if ($request->hasFile('foto')) {
+                $dados['foto_manutencao'] = $request->file('foto')->store('manutencoes', 'public');
             }
 
             $item->update($dados);

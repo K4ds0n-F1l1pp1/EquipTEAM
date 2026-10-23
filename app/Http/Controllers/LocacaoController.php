@@ -19,6 +19,9 @@ class LocacaoController extends Controller
                 ->whereHas('cliente', function ($query) use ($search) {
                     $query->where('nome', 'like', '%' . $search . '%');
                 })
+                ->orWhereHas('equipamento', function ($query) use ($search) {
+                    $query->where('nome', 'like', '%' . $search . '%');
+                })
                 ->get();
         } else {
             $dados = Locacao::with(['cliente', 'equipamento'])->get();

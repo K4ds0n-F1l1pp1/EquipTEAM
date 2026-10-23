@@ -49,17 +49,26 @@
                     @forelse($dados as $item)
                     <tr>
                         <td class="text-muted">#{{ $item->id }}</td>
-                        <td class="fw-semibold">{{ $item->equipamento->nome ?? 'N/A' }}</td>
+                        
+                        <!-- Nome do Equipamento do Relacionamento -->
+                        <td class="fw-semibold">{{ optional($item->equipamento)->nome ?? 'N/A' }}</td>
+                        
                         <td>{{ $item->descricao }}</td>
-                        <td>{{ \Carbon\Carbon::parse($item->data_manutencao)->format('d/m/Y') }}</td>
+                        
+                        <!-- Ajuste para 'data' ou 'data_manutencao' -->
+                        <td>{{ \Carbon\Carbon::parse($item->data ?? $item->data_manutencao)->format('d/m/Y') }}</td>
+                        
                         <td class="fw-semibold">R$ {{ number_format($item->custo, 2, ',', '.') }}</td>
+                        
+                        <!-- Foto puxada do Equipamento associado -->
                         <td>
-                            @if($item->foto)
-                                <img src="{{ asset('storage/' . $item->foto) }}" alt="Foto Manutenção" width="60" class="img-thumbnail rounded">
+                            @if($item->foto_manutencao)
+                                <img src="{{ asset('storage/' . $item->foto_manutencao) }}" alt="Foto Manutenção" width="60" class="img-thumbnail rounded">
                             @else
                                 <span class="text-muted small">Sem foto</span>
                             @endif
                         </td>
+                        
                         <td class="text-end">
                             <a href="{{ route('manutencao.edit', $item->id) }}" class="btn btn-icon btn-warning btn-sm" title="Editar">
                                 <i class="bi bi-pencil-fill"></i>
